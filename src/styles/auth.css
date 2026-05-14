@@ -71,7 +71,7 @@
   font-size: 0.62rem;
   letter-spacing: 0.3em;
   text-transform: uppercase;
-  color: var(--terracotta);
+  color: #5C2A1E;
   text-decoration: none;
   margin-bottom: 3.5rem;
   display: block;
@@ -149,7 +149,7 @@
   font-size: 0.65rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  background: var(--terracotta);
+  background: #5C2A1E;
   color: var(--white);
   border: none;
   padding: 1.1rem 2rem;
@@ -192,6 +192,74 @@
 }
 .auth-toggle a:hover { border-color: var(--terracotta); }
 
+/* ── Password eye toggle ── */
+.auth-input-wrap {
+  position: relative;
+}
+
+.auth-input-wrap .auth-input {
+  padding-right: 3rem;
+}
+
+.auth-eye-btn {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--ink-soft);
+  display: flex;
+  align-items: center;
+  padding: 0;
+  line-height: 0;
+  transition: color 0.15s;
+}
+
+.auth-eye-btn:hover { color: var(--ink); }
+
+/* ── Password strength ── */
+.auth-strength {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.auth-strength-bars {
+  display: flex;
+  gap: 5px;
+  flex: 1;
+}
+
+.auth-strength-bar {
+  height: 2px;
+  flex: 1;
+  background: var(--line);
+  transition: background 0.3s;
+}
+
+.auth-strength-bar--weak   { background: #c0392b; }
+.auth-strength-bar--fair   { background: #e67e22; }
+.auth-strength-bar--good   { background: var(--sand); }
+.auth-strength-bar--strong { background: #27ae60; }
+
+.auth-strength-label {
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  min-width: 3.5rem;
+  text-align: right;
+}
+
+.auth-strength-label--weak   { color: #c0392b; }
+.auth-strength-label--fair   { color: #e67e22; }
+.auth-strength-label--good   { color: var(--sand); }
+.auth-strength-label--strong { color: #27ae60; }
+
+/* ── Admin code note ── */
 .auth-admin-code {
   font-family: var(--font-mono);
   font-size: 0.58rem;

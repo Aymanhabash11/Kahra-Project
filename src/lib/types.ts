@@ -1,3 +1,9 @@
+export interface ProductVariant {
+  size: string
+  color: string
+  quantity: number
+}
+
 export interface Product {
   id: string
   title: string
@@ -17,6 +23,9 @@ export interface Product {
   colors: string[]
   in_stock: boolean
   quantity?: number
+  size_quantities?: Record<string, number>
+  variants?: ProductVariant[]
+  color_images?: Record<string, string>
   created_at?: string
 }
 
@@ -50,6 +59,7 @@ export interface Profile {
   id: string
   email?: string
   full_name?: string
+  phone?: string
   avatar_url?: string
   role: 'customer' | 'admin'
   created_at?: string

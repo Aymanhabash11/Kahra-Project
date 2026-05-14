@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '../../lib/supabase'
+import { SkeletonReports } from '../../components/Skeleton'
 
 interface ReportData {
   totalProducts: number
@@ -48,7 +49,7 @@ export default function AdminReports() {
     load()
   }, [])
 
-  if (loading) return <div className="admin-loading">Loading reports…</div>
+  if (loading) return <SkeletonReports />
   if (!data) return null
 
   const maxCount = Math.max(...chartData.map(d => d.count), 1)

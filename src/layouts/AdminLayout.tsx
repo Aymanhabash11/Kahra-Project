@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react'
 import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import '../styles/admin.css'
@@ -64,6 +65,14 @@ export default function AdminLayout() {
   const { profile, signOut } = useAuth()
   const navigate = useNavigate()
   const { pathname } = useLocation()
+  const [sidebarOpen, setSidebarOpen] = useState(false)
+
+  useEffect(() => { setSidebarOpen(false) }, [pathname])
+
+  useEffect(() => {
+    document.body.style.overflow = sidebarOpen ? 'hidden' : ''
+    return () => { document.body.style.overflow = '' }
+  }, [sidebarOpen])
 
   const pageTitle = PAGE_NAMES[pathname] ?? 'Admin'
   const initials  = profile?.full_name
@@ -73,11 +82,24 @@ export default function AdminLayout() {
   return (
     <div className="admin-layout">
 
+      {/* Mobile sidebar overlay */}
+      <div
+        className={`admin-sidebar-overlay${sidebarOpen ? ' open' : ''}`}
+        onClick={() => setSidebarOpen(false)}
+      />
+
       {/* ── Sidebar ── */}
-      <aside className="admin-sidebar">
+      <aside className={`admin-sidebar${sidebarOpen ? ' open' : ''}`}>
         <div className="admin-sidebar-logo">
-          <a href="/" className="admin-sidebar-brand">House of Nomad Stories</a>
-          <div className="admin-sidebar-sub">Admin Panel</div>
+          <div>
+            <a href="/" className="admin-sidebar-brand">House of Nomad Stories</a>
+            <div className="admin-sidebar-sub">Admin Panel</div>
+          </div>
+          <button
+            className="admin-sidebar-close"
+            onClick={() => setSidebarOpen(false)}
+            aria-label="Close menu"
+          >✕</button>
         </div>
 
         <nav className="admin-nav">
@@ -122,6 +144,13 @@ export default function AdminLayout() {
       <div className="admin-content">
         <header className="admin-topbar">
           <div className="admin-topbar-left">
+            <button
+              className="admin-hamburger"
+              onClick={() => setSidebarOpen(o => !o)}
+              aria-label={sidebarOpen ? 'Close menu' : 'Open menu'}
+            >
+              <span /><span /><span />
+            </button>
             <span className="admin-topbar-page">{pageTitle}</span>
           </div>
           <div className="admin-topbar-right">

@@ -3,6 +3,7 @@ import { useSearchParams } from 'react-router-dom'
 import { loadProducts, COLLECTIONS, formatName, normalize } from '../lib/utils'
 import type { Product } from '../lib/types'
 import ProductCard from '../components/ProductCard'
+import { SkeletonProductGrid } from '../components/Skeleton'
 import '../styles/collection.css'
 
 type SortKey = 'newest' | 'price-asc' | 'price-desc' | 'name-asc'
@@ -105,9 +106,7 @@ export default function Collection() {
       </div>
 
       <div className="grid">
-        {loading && (
-          <div className="empty" style={{ opacity: 1 }}>Loading…</div>
-        )}
+        {loading && <SkeletonProductGrid count={8} />}
         {!loading && filtered.length === 0 && (
           <div className="empty">No products found in this collection.</div>
         )}

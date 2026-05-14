@@ -1,0 +1,162 @@
+/* ============================================================
+   SKELETON / SHIMMER  — shared across all pages
+   ============================================================ */
+
+.sk {
+  display: block;
+  background: linear-gradient(
+    90deg,
+    #ede7de 25%,
+    #f7f2ea 50%,
+    #ede7de 75%
+  );
+  background-size: 200% 100%;
+  animation: sk-shimmer 1.6s ease-in-out infinite;
+}
+
+@keyframes sk-shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ── Product card skeleton (lives inside .grid) ── */
+.sk-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.sk-card-img {
+  aspect-ratio: 3 / 4;
+  width: 100%;
+}
+
+.sk-card-body {
+  padding: 0.85rem 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.sk-line {
+  height: 12px;
+  border-radius: 1px;
+}
+
+/* ── Product detail page skeleton ── */
+.sk-product-wrap {
+  padding: calc(var(--nav-h, 80px) + 3rem) var(--section-px, 4rem) var(--section-py, 6rem);
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: start;
+}
+
+.sk-product-gallery { display: flex; flex-direction: column; gap: 0.75rem; }
+
+.sk-product-main-img {
+  aspect-ratio: 3 / 4;
+  width: 100%;
+}
+
+.sk-product-thumbs {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.sk-product-thumb {
+  width: 64px;
+  height: 80px;
+  flex-shrink: 0;
+}
+
+.sk-product-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  padding-top: 0.5rem;
+}
+
+.sk-swatch-row {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+}
+
+/* ── Journal article skeleton ── */
+.sk-article-wrap {
+  padding-top: var(--nav-h, 80px);
+  background: var(--white, #fff);
+}
+
+.sk-article-hero {
+  height: 55vh;
+  width: 100%;
+}
+
+.sk-article-body {
+  max-width: 740px;
+  margin: 0 auto;
+  padding: 3rem 2rem 5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+/* ── Admin table rows ── */
+.sk-table-row {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 0.95rem 1.5rem;
+  border-bottom: 1px solid rgba(232,223,208,0.6);
+}
+
+.sk-thumb {
+  width: 44px;
+  height: 56px;
+  flex-shrink: 0;
+}
+
+/* ── Admin stat / report card skeleton ── */
+.sk-stat-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+/* ── Chart bars skeleton ── */
+.sk-chart-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.75rem;
+  height: 160px;
+}
+
+.sk-chart-bar-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  height: 100%;
+}
+
+.sk-chart-bar {
+  width: 100%;
+  border-radius: 1px 1px 0 0;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .sk-product-wrap {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    padding: calc(var(--nav-h, 80px) + 1.5rem) 1.5rem 4rem;
+  }
+  .sk-article-body { padding: 2rem 1.25rem 4rem; }
+  .sk-table-row { padding: 0.75rem 1rem; gap: 1rem; }
+}

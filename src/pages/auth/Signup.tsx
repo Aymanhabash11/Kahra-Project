@@ -1,25 +1,64 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
+import { useToast } from '../../context/ToastContext'
 import '../../styles/auth.css'
+
+function EyeIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+      <circle cx="12" cy="12" r="3" />
+    </svg>
+  )
+}
+
+function EyeOffIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94" />
+      <path d="M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19" />
+      <line x1="1" y1="1" x2="23" y2="23" />
+    </svg>
+  )
+}
+
+function getStrength(pw: string): { score: number; label: string; level: string } {
+  if (!pw) return { score: 0, label: '', level: '' }
+  let score = 0
+  if (pw.length >= 8) score++
+  if (pw.length >= 12) score++
+  if (/[A-Z]/.test(pw)) score++
+  if (/[0-9]/.test(pw)) score++
+  if (/[^A-Za-z0-9]/.test(pw)) score++
+  if (score <= 1) return { score: 1, label: 'Weak', level: 'weak' }
+  if (score === 2) return { score: 2, label: 'Fair', level: 'fair' }
+  if (score === 3) return { score: 3, label: 'Good', level: 'good' }
+  return { score: 4, label: 'Strong', level: 'strong' }
+}
 
 export default function Signup() {
   const { signUp } = useAuth()
+  const { showToast } = useToast()
   const navigate = useNavigate()
-  const [form, setForm] = useState({ fullName: '', email: '', password: '', adminCode: '' })
+  const [form, setForm] = useState({ fullName: '', email: '', password: '', phone: '', adminCode: '' })
   const [showAdminCode, setShowAdminCode] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
 
   const set = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement>) =>
     setForm(f => ({ ...f, [k]: e.target.value }))
 
+  const strength = getStrength(form.password)
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setError(''); setLoading(true)
-    const err = await signUp(form.email, form.password, form.fullName, form.adminCode || undefined)
+    const err = await signUp(form.email, form.password, form.fullName, form.adminCode || undefined, form.phone || undefined)
     setLoading(false)
     if (err) { setError(err); return }
+    showToast(`Welcome, ${form.fullName.split(' ')[0]} — your account is ready.`, 'success')
     navigate('/')
   }
 
@@ -48,13 +87,53 @@ export default function Signup() {
             <label className="auth-label">Full Name</label>
             <input className="auth-input" type="text" placeholder="Your name" value={form.fullName} onChange={set('fullName')} required />
           </div>
+
           <div className="auth-field">
             <label className="auth-label">Email Address</label>
             <input className="auth-input" type="email" placeholder="you@example.com" value={form.email} onChange={set('email')} required />
           </div>
+
+          <div className="auth-field">
+            <label className="auth-label">Phone Number</label>
+            <input className="auth-input" type="tel" placeholder="+1 (555) 000-0000" value={form.phone} onChange={set('phone')} />
+          </div>
+
           <div className="auth-field">
             <label className="auth-label">Password</label>
-            <input className="auth-input" type="password" placeholder="Minimum 6 characters" value={form.password} onChange={set('password')} required minLength={6} />
+            <div className="auth-input-wrap">
+              <input
+                className="auth-input"
+                type={showPassword ? 'text' : 'password'}
+                placeholder="Minimum 6 characters"
+                value={form.password}
+                onChange={set('password')}
+                required
+                minLength={6}
+              />
+              <button
+                type="button"
+                className="auth-eye-btn"
+                onClick={() => setShowPassword(s => !s)}
+                aria-label={showPassword ? 'Hide password' : 'Show password'}
+              >
+                {showPassword ? <EyeOffIcon /> : <EyeIcon />}
+              </button>
+            </div>
+            {form.password && (
+              <div className="auth-strength">
+                <div className="auth-strength-bars">
+                  {[1, 2, 3, 4].map(i => (
+                    <div
+                      key={i}
+                      className={`auth-strength-bar${strength.score >= i ? ` auth-strength-bar--${strength.level}` : ''}`}
+                    />
+                  ))}
+                </div>
+                <span className={`auth-strength-label auth-strength-label--${strength.level}`}>
+                  {strength.label}
+                </span>
+              </div>
+            )}
           </div>
 
           {showAdminCode && (

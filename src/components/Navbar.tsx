@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useCart } from '../context/CartContext'
+import { useToast } from '../context/ToastContext'
 import { supabase } from '../lib/supabase'
 import SearchOverlay from './SearchOverlay'
 import '../styles/navbar.css'
@@ -68,6 +69,7 @@ function BagIcon() {
 export default function Navbar() {
   const { user, profile, signOut } = useAuth()
   const { itemCount, setCartOpen } = useCart()
+  const { showToast } = useToast()
   const navigate = useNavigate()
   const [scrolled, setScrolled]           = useState(false)
   const [colOpen, setColOpen]             = useState(false)
@@ -173,7 +175,13 @@ export default function Navbar() {
                 <>
                   <Link to="/profile" className="acct-link" onClick={closeAll}>Profile</Link>
                   <button className="acct-link"
-                    onClick={() => { signOut().then(() => navigate('/')); closeAll() }}>
+                    onClick={() => {
+                      signOut().then(() => {
+                        navigate('/')
+                        showToast('You have been signed out.', 'info')
+                      })
+                      closeAll()
+                    }}>
                     Sign Out
                   </button>
                 </>
@@ -336,7 +344,13 @@ export default function Navbar() {
             <>
               <Link to="/profile" className="mobile-nav-link" onClick={closeMenu}>Profile</Link>
               <button className="mobile-nav-link"
-                onClick={() => { signOut().then(() => { navigate('/'); closeMenu() }) }}>
+                onClick={() => {
+                  signOut().then(() => {
+                    navigate('/')
+                    showToast('You have been signed out.', 'info')
+                    closeMenu()
+                  })
+                }}>
                 Sign Out
               </button>
             </>

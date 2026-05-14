@@ -14,7 +14,7 @@ body { padding-top: var(--nav-h); }
 
 /* ── Journal Header ── */
 .journal-header {
-  background: var(--ink);
+  background: #5C2A1E;
   border-bottom: 1px solid rgba(199,80,31,0.2);
   padding: clamp(3rem, 6vw, 5rem) clamp(1.5rem, 5vw, 6rem) clamp(2rem, 4vw, 3.5rem);
   display: flex;
@@ -165,7 +165,7 @@ body { padding-top: var(--nav-h); }
   flex-shrink: 0; border-radius: 0;
 }
 .pill:hover { color: var(--ink); border-color: var(--line); background: var(--bg-cream-light); }
-.pill.active { color: var(--white); border-color: var(--terracotta); background: var(--terracotta); }
+.pill.active { color: var(--white);  background: #5C2A1E; }
 
 /* ── Posts grid ── */
 .journal-body { padding: clamp(2.5rem, 5vw, 4rem) clamp(1.5rem, 5vw, 6rem); }

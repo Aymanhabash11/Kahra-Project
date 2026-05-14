@@ -5,6 +5,7 @@ import { slugify, JOURNAL_CATEGORIES } from '../../lib/utils'
 import Modal from '../../components/ui/Modal'
 import ImageUploadField from '../../components/ImageUploadField'
 import RichTextEditor from '../../components/RichTextEditor'
+import { SkeletonAdminTable } from '../../components/Skeleton'
 
 const EMPTY: Partial<JournalPost> = { title: '', slug: '', excerpt: '', content: '', cover_image: '', category: '', author: 'House of Nomad Stories', published: false }
 
@@ -80,7 +81,7 @@ export default function AdminJournal() {
         </div>
 
         {loading ? (
-          <div className="admin-loading">Loading…</div>
+          <SkeletonAdminTable cols={6} rows={6} />
         ) : (
           <table className="admin-table">
             <thead>

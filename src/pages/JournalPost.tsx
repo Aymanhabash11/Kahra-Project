@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 import type { JournalPost } from '../lib/types'
+import { SkeletonArticle } from '../components/Skeleton'
 import '../styles/journal.css'
 
 const MOCK: Record<string, JournalPost> = {
@@ -26,7 +27,7 @@ export default function JournalPost() {
       })
   }, [slug])
 
-  if (loading) return <div style={{ padding: '8rem 4rem', textAlign: 'center', fontFamily: 'Cormorant Garamond, serif', color: 'var(--muted)', fontStyle: 'italic' }}>Loading…</div>
+  if (loading) return <SkeletonArticle />
   if (!post) return (
     <div style={{ padding: '8rem 4rem', textAlign: 'center' }}>
       <h2 style={{ fontFamily: 'Cormorant Garamond, serif', fontWeight: 300, color: 'var(--muted)' }}>Story not found</h2>

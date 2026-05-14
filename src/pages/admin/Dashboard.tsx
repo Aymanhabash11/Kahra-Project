@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '../../lib/supabase'
 import { seedFromJson } from '../../lib/utils'
+import { SkeletonDashboard } from '../../components/Skeleton'
 
 interface Stats {
   products: number
@@ -11,10 +12,12 @@ interface Stats {
 
 export default function Dashboard() {
   const [stats, setStats] = useState<Stats>({ products: 0, designers: 0, posts: 0, subscribers: 0 })
+  const [statsLoading, setStatsLoading] = useState(true)
   const [seeding, setSeeding] = useState(false)
   const [seedResult, setSeedResult] = useState<{ products: number; designers: number } | null>(null)
 
   useEffect(() => {
+    setStatsLoading(true)
     async function fetchStats() {
       const [p, d, j, s] = await Promise.all([
         supabase.from('products').select('*', { count: 'exact', head: true }),
@@ -28,6 +31,7 @@ export default function Dashboard() {
         posts: j.count ?? 0,
         subscribers: s.count ?? 0,
       })
+      setStatsLoading(false)
     }
     fetchStats()
   }, [seedResult])
@@ -62,16 +66,18 @@ export default function Dashboard() {
         </div>
       </div>
 
-      <div className="admin-stats-grid">
-        {STATS.map(s => (
-          <div key={s.label} className="admin-stat-card">
-            <div className="admin-stat-accent" />
-            <div className="admin-stat-label">{s.label}</div>
-            <div className="admin-stat-value">{s.value}</div>
-            <div className="admin-stat-sub">{s.sub}</div>
-          </div>
-        ))}
-      </div>
+      {statsLoading ? <SkeletonDashboard /> : (
+        <div className="admin-stats-grid">
+          {STATS.map(s => (
+            <div key={s.label} className="admin-stat-card">
+              <div className="admin-stat-accent" />
+              <div className="admin-stat-label">{s.label}</div>
+              <div className="admin-stat-value">{s.value}</div>
+              <div className="admin-stat-sub">{s.sub}</div>
+            </div>
+          ))}
+        </div>
+      )}
 
       <div className="admin-seed-section">
         <div className="admin-seed-title">Import from JSON</div>

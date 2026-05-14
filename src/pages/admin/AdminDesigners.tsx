@@ -4,6 +4,7 @@ import type { Designer } from '../../lib/types'
 import { slugify } from '../../lib/utils'
 import Modal from '../../components/ui/Modal'
 import ImageUploadField from '../../components/ImageUploadField'
+import { SkeletonAdminTable } from '../../components/Skeleton'
 
 const EMPTY: Partial<Designer> = { name: '', handle: '', origin: '', bio: '', image_url: '', website: '' }
 
@@ -65,7 +66,7 @@ export default function AdminDesigners() {
         </div>
 
         {loading ? (
-          <div className="admin-loading">Loading…</div>
+          <SkeletonAdminTable cols={5} rows={6} />
         ) : (
           <table className="admin-table">
             <thead>
