@@ -1,0 +1,214 @@
+/* Uses globals.css tokens */
+
+body { padding-top: var(--nav-h); }
+
+/* ── Page Header ── */
+.page-header {
+  background: var(--ink);
+  border-bottom: 1px solid rgba(199,80,31,0.2);
+  padding: clamp(3rem, 6vw, 5rem) clamp(1.5rem, 5vw, 6rem) clamp(2rem, 4vw, 3.5rem);
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.page-header-left .page-label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--terracotta);
+  margin-bottom: 0.8rem;
+  display: block;
+}
+
+.page-header-left h1 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(2rem, 4.5vw, 3.5rem);
+  line-height: 1.05;
+  color: var(--bg-cream);
+  letter-spacing: 0.01em;
+}
+
+.page-header-left h1 em {
+  font-style: italic;
+  color: var(--sand);
+}
+
+.product-count {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  color: rgba(242,235,221,0.4);
+  padding-bottom: 0.4rem;
+  text-transform: uppercase;
+}
+
+/* ── Filter bar ── */
+.filter-bar {
+  background: var(--bg-cream-light);
+  border-bottom: 1px solid var(--line);
+  padding: 0 clamp(1.5rem, 5vw, 6rem);
+  display: flex;
+  align-items: center;
+  gap: 0;
+  position: sticky;
+  top: var(--nav-h);
+  z-index: 100;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.filter-bar::-webkit-scrollbar { display: none; }
+
+.filter-label {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  padding: 1.1rem 1.2rem 1.1rem 0;
+  border-right: 1px solid var(--line);
+  margin-right: 1rem;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.filter-pills {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.6rem 0;
+  flex-wrap: nowrap;
+}
+
+.pill {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  background: transparent;
+  border: 1px solid transparent;
+  padding: 0.38rem 0.9rem;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s;
+  flex-shrink: 0;
+  border-radius: 0;
+}
+.pill:hover {
+  color: var(--ink);
+  border-color: var(--line);
+  background: var(--bg-cream);
+}
+.pill.active {
+  color: var(--white);
+  border-color: var(--terracotta);
+  background: var(--terracotta);
+}
+
+/* ── Grid ── */
+.grid-wrapper {
+  padding: clamp(2rem, 4vw, 3rem) 0;
+  background: var(--bg-cream);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1px;
+  background: var(--line);
+}
+
+/* ── Cards — shared between Designer and Collection ── */
+.card {
+  background: var(--bg-cream-light);
+  cursor: pointer;
+  overflow: hidden;
+  transition: background 0.3s;
+  position: relative;
+}
+.card:hover { background: var(--bg-cream); }
+
+.card-image {
+  position: relative;
+  aspect-ratio: 3/4;
+  overflow: hidden;
+  background: var(--line);
+}
+
+.card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.7s ease;
+}
+.card:hover .card-image img { transform: scale(1.04); }
+
+.card-designer-tag {
+  position: absolute;
+  top: 1rem; left: 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.56rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--white);
+  background: rgba(26,26,26,0.65);
+  backdrop-filter: blur(4px);
+  padding: 0.25rem 0.6rem;
+}
+
+.card-content {
+  padding: 1.2rem 1.4rem 1.6rem;
+  border-top: 1px solid var(--line);
+}
+
+.card-content .title {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.35;
+  color: var(--ink);
+  margin-bottom: 0.4rem;
+}
+
+.card-content .price {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  color: var(--ink-soft);
+}
+
+/* Remove old CHF prefix (currency is now in JS) */
+.card-content .price::before { content: ''; }
+
+/* ── Empty state ── */
+.empty-state {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 8rem 2rem;
+  background: var(--bg-cream-light);
+}
+
+.empty-state p {
+  font-family: var(--font-serif);
+  font-size: 1.4rem;
+  font-style: italic;
+  color: var(--ink-soft);
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .page-header  { padding: 2.5rem 1.5rem 2rem; }
+  .filter-bar   { padding: 0 1.5rem; }
+  .grid-wrapper { padding: 1.5rem 0 3rem; }
+  .grid         { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 480px) {
+  .grid { grid-template-columns: 1fr 1fr; }
+}

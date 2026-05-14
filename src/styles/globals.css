@@ -1,0 +1,1338 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ============================================================
+   KAHRA STUDIO GROUP — DESIGN TOKENS
+   ============================================================ */
+:root {
+  /* KAHRA palette */
+  --bg-cream:       #F2EBDD;
+  --bg-cream-light: #F8F3E8;
+  --terracotta:     #C7501F;
+  --maroon:         #5C2A1E;
+  --ink:            #1A1A1A;
+  --ink-soft:       #6B6B6B;
+  --sand:           #C89B6E;
+  --line:           #E5DDD0;
+
+  /* Legacy aliases — keep for existing components */
+  --cream:     #F2EBDD;
+  --gold:      #C89B6E;
+  --gold-dark: #A8784A;
+  --charcoal:  #1A1A1A;
+  --muted:     #6B6B6B;
+  --white:     #FFFFFF;
+  --nav-h:     80px;
+
+  /* Typography */
+  --font-display: 'Bodoni Moda', 'Cormorant Garamond', serif;
+  --font-serif:   'Cormorant Garamond', serif;
+  --font-mono:    'JetBrains Mono', 'IBM Plex Mono', monospace;
+  --font-body:    'Jost', sans-serif;
+
+  /* Spacing */
+  --section-py: clamp(4rem, 10vw, 9rem);
+  --section-px: clamp(1.5rem, 5vw, 6rem);
+}
+
+html { scroll-behavior: smooth; }
+main { display: block; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg-cream);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-weight: 300;
+  overflow-x: hidden;
+}
+
+/* ============================================================
+   REVEAL ANIMATION — used by IntersectionObserver (do not rename)
+   ============================================================ */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.22s; }
+.reveal-delay-3 { transition-delay: 0.34s; }
+
+/* ============================================================
+   SHARED TYPOGRAPHY
+   ============================================================ */
+.section-label {
+  font-family: var(--font-mono);
+  font-size: clamp(0.65rem, 1.2vw, 0.72rem);
+  font-weight: 300;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--terracotta);
+  margin-bottom: 1.2rem;
+}
+
+.kahra-rule {
+  width: 100%;
+  height: 1px;
+  background: var(--line);
+  border: none;
+  margin: 0;
+}
+
+/* ============================================================
+   BUTTONS — keep classes, restyle
+   ============================================================ */
+.btn {
+  font-family: var(--font-mono);
+  font-weight: 300;
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 1rem 2.4rem;
+  display: inline-block;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: none;
+  white-space: nowrap;
+  border-radius: 0;
+}
+
+.btn-primary {
+  background: var(--terracotta);
+  color: var(--white);
+}
+.btn-primary:hover {
+  background: var(--maroon);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--white);
+  border: 1px solid rgba(255,255,255,0.5);
+}
+.btn-outline:hover {
+  background: rgba(255,255,255,0.08);
+  border-color: var(--white);
+}
+
+/* ============================================================
+   HERO — GSAP targets: .hero-bg .hero-eyebrow .hero-title
+          .hero-sub .hero-cta (do not rename)
+   ============================================================ */
+#hero {
+  position: relative;
+  height: 100vh;
+  min-height: 600px;
+  margin-top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute; inset: 0;
+  background-image: url('https://images.unsplash.com/photo-1509316785289-025f5b846b35?w=1800&q=80');
+  background-size: cover;
+  background-position: center 40%;
+  transform-origin: center;
+}
+
+.hero-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(
+    160deg,
+    rgba(92,42,30,0.55) 0%,
+    rgba(26,26,26,0.72) 100%
+  );
+}
+
+.hero-content {
+  position: relative; z-index: 2;
+  text-align: center;
+  padding: 0 clamp(1.5rem, 5vw, 4rem);
+  max-width: 900px;
+}
+
+.hero-eyebrow {
+  font-family: var(--font-mono);
+  font-weight: 300;
+  font-size: clamp(0.6rem, 1.2vw, 0.7rem);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--sand);
+  margin-bottom: 2rem;
+}
+
+.hero-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(3.5rem, 10vw, 8rem);
+  line-height: 0.95;
+  color: var(--white);
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  margin-bottom: 1.8rem;
+}
+
+.hero-title em {
+  font-style: italic;
+  letter-spacing: 0.15em;
+  color: var(--sand);
+  font-size: 0.55em;
+  display: block;
+  text-transform: none;
+  margin-top: 0.6rem;
+}
+
+.hero-sub {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(1rem, 2.2vw, 1.35rem);
+  color: rgba(242,235,221,0.8);
+  margin-bottom: 3rem;
+  letter-spacing: 0.03em;
+  max-width: 560px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.hero-cta {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.hero-scroll {
+  position: absolute;
+  bottom: 2.5rem; left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+}
+.hero-scroll span {
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: rgba(242,235,221,0.45);
+}
+.scroll-line {
+  width: 1px; height: 40px;
+  background: linear-gradient(to bottom, rgba(199,80,31,0.7), transparent);
+  animation: scrollPulse 2s ease-in-out infinite;
+}
+@keyframes scrollPulse {
+  0%,100% { opacity: 0.4; transform: scaleY(1); }
+  50% { opacity: 1; transform: scaleY(1.2); }
+}
+
+/* ============================================================
+   MARQUEE — do not rename .marquee-wrap .marquee-track .dot
+   ============================================================ */
+.marquee-wrap {
+  background: var(--maroon);
+  border-top: 1px solid rgba(199,80,31,0.15);
+  border-bottom: 1px solid rgba(199,80,31,0.15);
+  overflow: hidden;
+  padding: 0.95rem 0;
+  position: relative;
+}
+
+.marquee-wrap::before,
+.marquee-wrap::after {
+  content: '';
+  position: absolute; top: 0; bottom: 0; width: 80px;
+  z-index: 2; pointer-events: none;
+}
+.marquee-wrap::before {
+  left: 0;
+  background: linear-gradient(to right, var(--maroon), transparent);
+}
+.marquee-wrap::after {
+  right: 0;
+  background: linear-gradient(to left, var(--maroon), transparent);
+}
+
+.marquee-track {
+  display: flex; gap: 0; width: max-content;
+  animation: marquee 32s linear infinite;
+}
+
+.marquee-track span {
+  font-family: var(--font-mono);
+  font-weight: 300;
+  font-size: 0.62rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(242,235,221,0.65);
+  padding: 0 2rem;
+  white-space: nowrap;
+}
+
+.marquee-track .dot {
+  color: var(--terracotta);
+  font-size: 0.38rem;
+  padding: 0;
+  align-self: center;
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* ============================================================
+   ABOUT SECTION (01.1)
+   ============================================================ */
+.kahra-about {
+  padding: var(--section-py) var(--section-px);
+  background: var(--bg-cream);
+  border-bottom: 1px solid var(--line);
+}
+
+.kahra-about-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(3rem, 8vw, 8rem);
+  align-items: center;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.kahra-about-label {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 300;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--terracotta);
+  margin-bottom: 1.5rem;
+  display: block;
+}
+
+.kahra-about-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(2.4rem, 5vw, 4rem);
+  line-height: 1.05;
+  color: var(--ink);
+  margin-bottom: 2rem;
+  letter-spacing: 0.01em;
+}
+
+.kahra-about-body {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(1rem, 1.6vw, 1.1rem);
+  line-height: 1.8;
+  color: var(--ink-soft);
+  margin-bottom: 1.5rem;
+}
+
+.kahra-about-founders {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--terracotta);
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--line);
+}
+
+.kahra-about-image {
+  position: relative;
+  overflow: hidden;
+}
+
+.kahra-about-image img {
+  width: 100%;
+  aspect-ratio: 4/5;
+  object-fit: cover;
+  display: block;
+}
+
+/* ============================================================
+   VALUES SECTION (01.2)
+   ============================================================ */
+.kahra-values {
+  padding: var(--section-py) var(--section-px);
+  background: var(--bg-cream-light);
+  border-bottom: 1px solid var(--line);
+}
+
+.kahra-values-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: clamp(3rem, 6vw, 5rem);
+  flex-wrap: wrap;
+  gap: 2rem;
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: clamp(3rem, 6vw, 5rem);
+}
+
+.kahra-values-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(2rem, 4vw, 3rem);
+  color: var(--ink);
+  line-height: 1.1;
+}
+
+.kahra-values-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--line);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.kahra-value-card {
+  background: var(--bg-cream-light);
+  padding: clamp(2rem, 4vw, 3rem) clamp(1.5rem, 3vw, 2.5rem);
+}
+
+.kahra-value-num {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  color: var(--terracotta);
+  margin-bottom: 1.5rem;
+  display: block;
+}
+
+.kahra-value-name {
+  font-family: var(--font-display);
+  font-size: clamp(1.1rem, 2vw, 1.5rem);
+  font-weight: 400;
+  color: var(--ink);
+  margin-bottom: 1rem;
+  line-height: 1.2;
+}
+
+.kahra-value-desc {
+  font-family: var(--font-serif);
+  font-size: 0.95rem;
+  line-height: 1.75;
+  color: var(--ink-soft);
+}
+
+/* ============================================================
+   COLLECTION SECTION — keep class names (JS-driven)
+   ============================================================ */
+.section-collection {
+  padding: var(--section-py) var(--section-px);
+  background: var(--bg-cream);
+  border-bottom: 1px solid var(--line);
+}
+
+.collection-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 3rem;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 3rem;
+}
+
+.collection-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1.1;
+  color: var(--ink);
+}
+
+.collection-nav { display: flex; gap: 0.5rem; }
+
+.col-btn {
+  width: 42px; height: 42px;
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--ink-soft);
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.25s;
+  text-decoration: none;
+}
+.col-btn:hover { border-color: var(--terracotta); color: var(--terracotta); }
+
+.collection-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1px;
+  background: var(--line);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.collection-card {
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+  background: var(--bg-cream-light);
+}
+
+.collection-card img {
+  width: 100%;
+  aspect-ratio: 3/4;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.7s ease;
+}
+
+.collection-card:hover img { transform: scale(1.04); }
+
+.card-hover-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(92,42,30,0.75) 0%, transparent 55%);
+  opacity: 0;
+  transition: opacity 0.35s;
+}
+.collection-card:hover .card-hover-overlay { opacity: 1; }
+
+.card-info {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  padding: 1.4rem;
+  transform: translateY(6px);
+  transition: transform 0.35s;
+}
+.collection-card:hover .card-info { transform: translateY(0); }
+
+.card-tag {
+  font-family: var(--font-mono);
+  font-size: 0.55rem; font-weight: 300;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--sand); margin-bottom: 0.35rem;
+}
+.card-name {
+  font-family: var(--font-serif);
+  font-size: 1rem; font-weight: 400;
+  color: var(--white); line-height: 1.3;
+}
+.card-price {
+  font-family: var(--font-mono);
+  font-size: 0.68rem; font-weight: 300;
+  color: rgba(242,235,221,0.65);
+  margin-top: 0.3rem;
+}
+
+/* ============================================================
+   LOCATIONS SECTION
+   ============================================================ */
+.kahra-locations {
+  padding: var(--section-py) var(--section-px);
+  background: var(--maroon);
+  border-bottom: 1px solid rgba(199,80,31,0.2);
+}
+
+.kahra-locations-header {
+  max-width: 1400px;
+  margin: 0 auto 3rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid rgba(242,235,221,0.12);
+}
+
+.kahra-locations-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--terracotta);
+  margin-bottom: 0.8rem;
+  display: block;
+}
+
+.kahra-locations-vision {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(0.95rem, 1.8vw, 1.15rem);
+  color: rgba(242,235,221,0.65);
+  line-height: 1.6;
+}
+
+.kahra-locations-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: rgba(242,235,221,0.08);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.kahra-location-card {
+  background: var(--maroon);
+  padding: clamp(2rem, 4vw, 3.5rem) clamp(1.5rem, 3vw, 2.5rem);
+  position: relative;
+}
+
+.kahra-location-num {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--terracotta);
+  margin-bottom: 2rem;
+  display: block;
+}
+
+.kahra-location-img {
+  width: 100%;
+  aspect-ratio: 16/9;
+  object-fit: cover;
+  display: block;
+  margin-bottom: 2rem;
+  opacity: 0.75;
+}
+
+.kahra-location-name {
+  font-family: var(--font-display);
+  font-size: clamp(1.3rem, 2.5vw, 1.9rem);
+  font-weight: 400;
+  color: var(--bg-cream);
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.02em;
+}
+
+.kahra-location-sub {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--sand);
+  margin-bottom: 1.2rem;
+  display: block;
+}
+
+.kahra-location-desc {
+  font-family: var(--font-serif);
+  font-size: 0.95rem;
+  line-height: 1.75;
+  color: rgba(242,235,221,0.6);
+}
+
+/* ============================================================
+   ARCH MOTIF — recurring brand silhouette
+   ============================================================ */
+.kahra-arch-top {
+  border-radius: 9999px 9999px 0 0;
+  overflow: hidden;
+}
+
+.kahra-arch-divider {
+  display: flex;
+  justify-content: center;
+  padding: 2rem 0;
+  color: var(--line);
+}
+
+.kahra-arch-mark {
+  display: flex;
+  justify-content: center;
+  padding: 3rem 0 0;
+  color: var(--terracotta);
+  opacity: 0.5;
+}
+
+/* ============================================================
+   TARGET AUDIENCE BLOCK
+   ============================================================ */
+.kahra-audience {
+  padding: clamp(3rem, 6vw, 5rem) var(--section-px);
+  background: var(--bg-cream);
+  border-bottom: 1px solid var(--line);
+}
+
+.kahra-audience-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: clamp(3rem, 6vw, 6rem);
+  align-items: start;
+}
+
+.kahra-audience-label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--terracotta);
+  display: block;
+  margin-bottom: 1.2rem;
+}
+
+.kahra-audience-lead {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(1rem, 1.8vw, 1.2rem);
+  line-height: 1.7;
+  color: var(--ink-soft);
+}
+
+.kahra-audience-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--line);
+}
+
+.kahra-audience-stat {
+  background: var(--bg-cream);
+  padding: 1.8rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.kahra-audience-num {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 3vw, 2.4rem);
+  color: var(--terracotta);
+  line-height: 1;
+}
+
+.kahra-audience-stat-label {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.kahra-audience-detail {
+  font-family: var(--font-mono);
+  font-size: 0.56rem;
+  letter-spacing: 0.1em;
+  color: var(--ink-soft);
+  line-height: 1.6;
+  margin-top: 0.3rem;
+}
+
+/* ============================================================
+   CONCEPTS SECTION — cabinet of curiosities layout
+   ============================================================ */
+.kahra-concepts {
+  padding: var(--section-py) var(--section-px);
+  background: var(--bg-cream-light);
+  border-bottom: 1px solid var(--line);
+}
+
+.kahra-concepts-header {
+  max-width: 1400px;
+  margin: 0 auto 4rem;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.kahra-concepts-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(2rem, 4.5vw, 3.5rem);
+  color: var(--ink);
+  line-height: 1.05;
+}
+
+/* Cabinet of curiosities: irregular grid */
+.kahra-concepts-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-auto-rows: auto;
+  gap: 1px;
+  background: var(--line);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Card size variants for irregular layout */
+.kahra-concept-card {
+  background: var(--bg-cream-light);
+  padding: clamp(2rem, 4vw, 3rem) clamp(1.5rem, 3vw, 2.5rem);
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  transition: background 0.3s;
+  grid-column: span 2;
+}
+.kahra-concept-card:hover { background: var(--bg-cream); }
+
+/* HONS — hero card, full width, maroon */
+.kahra-concept-card.hero-card {
+  background: var(--maroon);
+  grid-column: span 6;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+}
+.kahra-concept-card.hero-card:hover { background: #6b3123; }
+
+.kahra-concept-hero-left { display: flex; flex-direction: column; gap: 1.1rem; }
+.kahra-concept-hero-right { display: flex; flex-direction: column; gap: 1.1rem; padding-top: 0.5rem; border-left: 1px solid rgba(242,235,221,0.12); padding-left: 3rem; }
+
+/* HONS Home — wide card */
+.kahra-concept-card.featured {
+  background: var(--ink);
+  grid-column: span 4;
+}
+.kahra-concept-card.featured:hover { background: #2a2a2a; }
+
+/* Tall card */
+.kahra-concept-card.tall {
+  grid-column: span 2;
+}
+
+.kahra-concept-num {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  color: var(--terracotta);
+  text-transform: uppercase;
+}
+.kahra-concept-card.featured .kahra-concept-num,
+.kahra-concept-card.hero-card .kahra-concept-num { color: var(--sand); }
+
+.kahra-concept-name {
+  font-family: var(--font-display);
+  font-size: clamp(1.3rem, 2.5vw, 2rem);
+  font-weight: 400;
+  color: var(--ink);
+  line-height: 1.1;
+}
+.kahra-concept-card.featured .kahra-concept-name,
+.kahra-concept-card.hero-card .kahra-concept-name { color: var(--bg-cream); }
+
+.kahra-concept-type {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--line);
+}
+.kahra-concept-card.featured .kahra-concept-type,
+.kahra-concept-card.hero-card .kahra-concept-type {
+  color: rgba(242,235,221,0.45);
+  border-bottom-color: rgba(242,235,221,0.1);
+}
+
+.kahra-concept-tagline {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(0.95rem, 1.5vw, 1.15rem);
+  line-height: 1.65;
+  color: var(--ink-soft);
+}
+.kahra-concept-card.featured .kahra-concept-tagline,
+.kahra-concept-card.hero-card .kahra-concept-tagline { color: rgba(242,235,221,0.75); }
+
+.kahra-concept-desc {
+  font-family: var(--font-serif);
+  font-size: 0.95rem;
+  line-height: 1.8;
+  color: rgba(242,235,221,0.6);
+}
+
+.kahra-concept-brands {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.1em;
+  color: var(--terracotta);
+  line-height: 1.9;
+  margin-top: auto;
+}
+.kahra-concept-card.featured .kahra-concept-brands,
+.kahra-concept-card.hero-card .kahra-concept-brands { color: rgba(200,155,110,0.8); }
+
+.kahra-concept-values {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(242,235,221,0.5);
+  line-height: 1.8;
+}
+
+.kahra-concept-services {
+  font-family: var(--font-mono);
+  font-size: 0.56rem;
+  letter-spacing: 0.1em;
+  color: rgba(242,235,221,0.4);
+  line-height: 1.9;
+}
+
+.kahra-concept-assortment {
+  font-family: var(--font-mono);
+  font-size: 0.56rem;
+  letter-spacing: 0.1em;
+  color: rgba(242,235,221,0.45);
+  line-height: 1.9;
+}
+
+/* ============================================================
+   INTERLUDE / CLOSING QUOTE — keep .section-interlude, .interlude-*
+   ============================================================ */
+.section-interlude {
+  position: relative;
+  overflow: hidden;
+  background: var(--ink);
+  padding: clamp(5rem, 12vw, 10rem) var(--section-px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.interlude-bg {
+  position: absolute; inset: 0;
+  background-image: url('https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=1400&q=70');
+  background-size: cover;
+  background-position: center;
+  opacity: 0.08;
+}
+
+.interlude-text {
+  position: relative; z-index: 2;
+  text-align: center;
+  max-width: 760px;
+}
+
+.interlude-quote {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(1.5rem, 3.5vw, 2.6rem);
+  line-height: 1.45;
+  color: var(--bg-cream);
+  margin-bottom: 2rem;
+}
+
+.interlude-attr {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-weight: 300;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--terracotta);
+}
+
+/* ============================================================
+   DESIGNERS SECTION — keep class names (JS-driven)
+   ============================================================ */
+.section-designers {
+  padding: var(--section-py) var(--section-px);
+  background: var(--bg-cream);
+  border-bottom: 1px solid var(--line);
+}
+
+.designers-intro {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 4rem;
+  margin-bottom: 4rem;
+  flex-wrap: wrap;
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.designers-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+  line-height: 1.15;
+  color: var(--ink);
+}
+
+.designers-desc {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(0.95rem, 1.5vw, 1.05rem);
+  line-height: 1.85;
+  color: var(--ink-soft);
+  max-width: 440px;
+  flex-shrink: 0;
+}
+
+.designer-list {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--line);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.designer-item {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  background: var(--bg-cream-light);
+}
+
+.designer-item img {
+  width: 100%;
+  aspect-ratio: 3/4;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.7s ease;
+  filter: grayscale(20%);
+}
+.designer-item:hover img {
+  transform: scale(1.04);
+  filter: grayscale(0%);
+}
+
+.designer-label {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  padding: 2rem 1.4rem 1.4rem;
+  background: linear-gradient(to top, rgba(92,42,30,0.8) 0%, transparent 100%);
+}
+.designer-name {
+  font-family: var(--font-serif);
+  font-size: 1.1rem; font-weight: 400;
+  color: var(--white);
+}
+.designer-origin {
+  font-family: var(--font-mono);
+  font-size: 0.58rem; font-weight: 300;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--sand); margin-top: 0.25rem;
+}
+
+/* ============================================================
+   FOUNDERS SECTION
+   ============================================================ */
+.kahra-founders {
+  padding: var(--section-py) var(--section-px);
+  background: var(--bg-cream-light);
+  border-bottom: 1px solid var(--line);
+}
+
+.kahra-founder-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--line);
+  max-width: 1400px;
+  margin: 0 auto 1px;
+}
+
+.kahra-founder-row:last-child { margin-bottom: 0; }
+
+.kahra-founder-text {
+  background: var(--bg-cream-light);
+  padding: clamp(3rem, 6vw, 6rem) clamp(2rem, 5vw, 5rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.kahra-founder-row.reverse .kahra-founder-text { order: 2; }
+.kahra-founder-row.reverse .kahra-founder-img-wrap { order: 1; }
+
+.kahra-founder-label {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--terracotta);
+  margin-bottom: 1.5rem;
+  display: block;
+}
+
+.kahra-founder-name {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+  font-weight: 400;
+  color: var(--ink);
+  margin-bottom: 0.6rem;
+  line-height: 1.1;
+}
+
+.kahra-founder-role {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-bottom: 1.8rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.kahra-founder-bio {
+  font-family: var(--font-serif);
+  font-size: clamp(0.95rem, 1.5vw, 1.05rem);
+  line-height: 1.8;
+  color: var(--ink-soft);
+}
+
+.kahra-founder-ventures {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--terracotta);
+  margin-top: 1.5rem;
+}
+
+.kahra-founder-img-wrap {
+  background: var(--line);
+  overflow: hidden;
+}
+
+.kahra-founder-img-wrap img {
+  width: 100%;
+  height: 100%;
+  min-height: 480px;
+  object-fit: cover;
+  display: block;
+  filter: grayscale(15%);
+}
+
+/* ============================================================
+   STATS BAR — keep class names
+   ============================================================ */
+.stats-bar {
+  background: var(--ink);
+  padding: clamp(3rem, 6vw, 5rem) var(--section-px);
+  display: flex;
+  justify-content: center;
+  gap: 0;
+  flex-wrap: wrap;
+}
+
+.stat-item {
+  text-align: center;
+  padding: 1rem clamp(2rem, 5vw, 5rem);
+  border-right: 1px solid rgba(229,221,208,0.12);
+}
+.stat-item:last-child { border-right: none; }
+
+.stat-num {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  color: var(--sand);
+  line-height: 1;
+  margin-bottom: 0.6rem;
+}
+
+.stat-label {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  font-weight: 300;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(242,235,221,0.4);
+}
+
+/* ============================================================
+   PARTNERSHIP SECTION
+   ============================================================ */
+.kahra-partnership {
+  padding: clamp(3rem, 7vw, 6rem) var(--section-px);
+  background: var(--bg-cream);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.kahra-partnership-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: clamp(3rem, 6vw, 6rem);
+  align-items: start;
+}
+
+.kahra-partnership-label {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--terracotta);
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.kahra-partnership-name {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  font-weight: 400;
+  color: var(--ink);
+  line-height: 1.1;
+}
+
+.kahra-partnership-body {
+  font-family: var(--font-serif);
+  font-size: clamp(0.95rem, 1.5vw, 1.05rem);
+  line-height: 1.8;
+  color: var(--ink-soft);
+}
+
+.kahra-partnership-founders-mono {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-top: 1.5rem;
+  line-height: 1.9;
+}
+
+/* ============================================================
+   NEWSLETTER — keep class names (JS form)
+   ============================================================ */
+.section-newsletter {
+  background: var(--bg-cream-light);
+  padding: var(--section-py) var(--section-px);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5rem;
+  align-items: center;
+  border-top: 1px solid var(--line);
+  max-width: 100%;
+}
+
+.newsletter-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1.1;
+  color: var(--ink);
+  margin-bottom: 1.2rem;
+}
+.newsletter-title em { font-style: italic; color: var(--terracotta); }
+
+.newsletter-text {
+  font-family: var(--font-serif);
+  font-size: clamp(0.95rem, 1.5vw, 1.05rem);
+  line-height: 1.85;
+  color: var(--ink-soft);
+}
+
+.newsletter-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.newsletter-input {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+  color: var(--ink);
+  background: var(--white);
+  border: 1px solid var(--line);
+  padding: 0.95rem 1.2rem;
+  outline: none;
+  transition: border-color 0.2s;
+  width: 100%;
+  border-radius: 0;
+}
+.newsletter-input:focus { border-color: var(--terracotta); }
+.newsletter-input::placeholder { color: var(--ink-soft); }
+
+.newsletter-submit {
+  font-family: var(--font-mono);
+  font-weight: 300;
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  background: var(--terracotta);
+  color: var(--white);
+  border: none;
+  padding: 1rem 2rem;
+  cursor: pointer;
+  transition: background 0.25s;
+  align-self: flex-start;
+  border-radius: 0;
+}
+.newsletter-submit:hover { background: var(--maroon); }
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 1100px) {
+  .collection-grid              { grid-template-columns: repeat(3, 1fr); }
+  .designer-list                { grid-template-columns: repeat(2, 1fr); }
+  .kahra-values-grid            { grid-template-columns: repeat(2, 1fr); }
+  .kahra-concepts-grid          { grid-template-columns: repeat(4, 1fr); }
+  .kahra-concept-card.hero-card { grid-column: span 4; grid-template-columns: 1fr; }
+  .kahra-concept-hero-right     { border-left: none; padding-left: 0; border-top: 1px solid rgba(242,235,221,0.1); padding-top: 1.5rem; }
+  .kahra-concept-card.featured  { grid-column: span 4; }
+  .kahra-audience-inner         { grid-template-columns: 1fr; }
+  .kahra-audience-stats         { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (max-width: 768px) {
+  nav, .navbar,
+  nav.scrolled, .navbar.scrolled {
+    padding: 0 1.25rem;
+    height: 60px;
+  }
+
+  .kahra-about-inner,
+  .kahra-founder-row,
+  .kahra-partnership-inner  { grid-template-columns: 1fr; }
+
+  .kahra-founder-row.reverse .kahra-founder-text,
+  .kahra-founder-row.reverse .kahra-founder-img-wrap { order: unset; }
+
+  .kahra-locations-grid     { grid-template-columns: 1fr; }
+  .kahra-concepts-grid      { grid-template-columns: 1fr 1fr; }
+  .kahra-concept-card       { grid-column: span 1 !important; }
+  .kahra-concept-card.hero-card { grid-template-columns: 1fr; }
+  .kahra-concept-hero-right { border-left: none; padding-left: 0; }
+  .kahra-audience-stats     { grid-template-columns: 1fr; }
+  .kahra-values-grid        { grid-template-columns: 1fr 1fr; }
+
+  .section-collection,
+  .section-designers,
+  .section-interlude,
+  .section-newsletter,
+  .kahra-about,
+  .kahra-values,
+  .kahra-locations,
+  .kahra-concepts,
+  .kahra-founders,
+  .kahra-partnership        { padding: 4rem 1.5rem; }
+
+  .stats-bar                { padding: 3rem 1.5rem; flex-wrap: wrap; }
+  .stat-item                { border-right: none; flex: 1 1 40%; }
+
+  .collection-grid          { grid-template-columns: repeat(2, 1fr); }
+  .designer-list            { grid-template-columns: repeat(2, 1fr); }
+  .designers-intro          { flex-direction: column; gap: 1.5rem; }
+  .section-newsletter       { grid-template-columns: 1fr; gap: 2.5rem; }
+  .collection-header        { flex-direction: column; align-items: flex-start; }
+
+  .kahra-founder-img-wrap img { min-height: 320px; }
+}
+
+@media (max-width: 480px) {
+  .collection-grid          { grid-template-columns: 1fr 1fr; gap: 1px; }
+  .designer-list            { grid-template-columns: 1fr 1fr; gap: 1px; }
+  .kahra-values-grid        { grid-template-columns: 1fr; }
+  .hero-cta                 { flex-direction: column; align-items: center; }
+  .btn                      { width: 100%; max-width: 280px; text-align: center; }
+}
