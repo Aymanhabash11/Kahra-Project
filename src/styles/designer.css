@@ -1,12 +1,11 @@
 /* Uses globals.css tokens */
 
-body { padding-top: var(--nav-h); }
-
 /* ── Page Header ── */
 .page-header {
   background: #5C2A1E;
   border-bottom: 1px solid rgba(199,80,31,0.2);
-  padding: clamp(3rem, 6vw, 5rem) clamp(1.5rem, 5vw, 6rem) clamp(2rem, 4vw, 3.5rem);
+  margin-top: calc(-1 * var(--nav-h));
+  padding: calc(var(--nav-h) + clamp(1.5rem, 3vw, 2.5rem)) clamp(1.5rem, 5vw, 6rem) clamp(2rem, 4vw, 3.5rem);
   display: flex;
   align-items: flex-end;
   justify-content: space-between;

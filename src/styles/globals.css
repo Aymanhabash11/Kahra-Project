@@ -43,6 +43,7 @@ body {
   font-family: var(--font-body);
   font-weight: 300;
   overflow-x: hidden;
+  padding-top: var(--nav-h);
 }
 
 /* ============================================================
@@ -124,7 +125,7 @@ body {
   position: relative;
   height: 100vh;
   min-height: 600px;
-  margin-top: 0;
+  margin-top: calc(-1 * var(--nav-h));
   display: flex;
   align-items: center;
   justify-content: center;
